@@ -5,13 +5,15 @@ import Statistics from "@/components/Statistics";
 import UpdateNoteModal from "@/components/UpdateNoteModal";
 import { AppDispatch } from "@/redux/store";
 import { deleteNote, getAllNotes } from "@/services/notes";
-import { useEffect, useState } from "react";
+import NoteFilters from "@/utils/NotesFilter";
+import { useEffect, useMemo, useState } from "react";
 import { IoAdd } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>(['All']);
   const [editingNote, setEditingNote] = useState<null | {
     id: string;
     title: string;
@@ -19,8 +21,8 @@ export default function Home() {
     type: string;
   }>(null);
   const dispatch = useDispatch<AppDispatch>();
-  const { notes } = useSelector((state: any) => state.notes);
-
+  const { notes, loading } = useSelector((state: any) => state.notes);
+  
   useEffect(() => {
     dispatch(getAllNotes());
   }, [dispatch]);
@@ -38,6 +40,11 @@ export default function Home() {
       console.error('Failed to delete note:', error)
     }
   }
+
+  const filteredNotes = useMemo(() => {
+    if (selectedFilters.includes('All')) return notes;
+    return notes.filter((note: any) => selectedFilters.includes(note.type));
+  }, [notes, selectedFilters]);
 
   return (
     <div className="grid grid-rows-[auto_1fr] min-h-screen p-8 pb-20 gap-8 sm:p-20 bg-white w-2/3 mx-auto">
@@ -61,18 +68,34 @@ export default function Home() {
             <span>Add Note</span>
           </button>
         </div>
+        <NoteFilters 
+          selectedFilters={selectedFilters}
+          onFilterChange={setSelectedFilters}
+        />
+
         <div className="grid gap-4">
-          {notes.map((note:any) => (
-            <NoteCard
-              key={note.id}
-              id={note.id}
-              title={note.title}
-              content={note.content}
-              type={note.type}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-          ))}
+          {loading ? (
+            Array(3).fill(0).map((_, index) => (
+              <NoteCardSkeleton key={index} />
+            ))
+          ) : (
+            filteredNotes.map((note:any) => (
+              <NoteCard
+                key={note.id}
+                id={note.id}
+                title={note.title}
+                content={note.content}
+                type={note.type}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            ))
+          )}
+          {!loading && filteredNotes.length === 0 && (
+            <div className="text-center py-8 text-gray-500">
+              No notes found for selected categories
+            </div>
+          )}
         </div>
       </div>
       <AddNoteModal
@@ -89,4 +112,22 @@ export default function Home() {
       />
     </div>
   );
+}
+
+export function NoteCardSkeleton() {
+  return (
+    <div className="bg-white rounded-lg shadow-sm px-6 py-4 border-l-4 border-l-gray-200 animate-pulse">
+      <div className="flex justify-between items-start">
+        <div className="flex-1">
+          <div className="h-6 bg-gray-200 rounded w-1/3 mb-2"></div>
+          <div className="h-4 bg-gray-200 rounded w-full mb-1"></div>
+          <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+        </div>
+        <div className="flex gap-2 ml-4">
+          <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
+          <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
+        </div>
+      </div>
+    </div>
+  )
 }
