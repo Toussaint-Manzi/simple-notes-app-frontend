@@ -102,9 +102,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Next.js team for the amazing framework
 - Vercel for hosting capabilities
 - All contributors who participate in this project
-
-## 📧 Contact
-
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter)
-
-Project Link: [https://github.com/yourusername/notes-manager](https://github.com/yourusername/notes-manager)

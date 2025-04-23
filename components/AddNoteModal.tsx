@@ -49,7 +49,10 @@ export default function AddNoteModal({ isOpen, onClose }: AddNoteModalProps) {
   const handleAddNote = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true);
-    if (!validateForm()) return
+    if (!validateForm()) {
+      setIsLoading(false);
+      return
+    }
 
     try {
       await dispatch(addNote(formData)).unwrap()

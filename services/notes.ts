@@ -9,7 +9,6 @@ export const getAllNotes = createAsyncThunk(
     async (_, { rejectWithValue }) => {
       try {
         const { data } = await axiosInstance.get('/notes/');
-        console.log('getAllNotes', data);
         return data.results;
       } catch (error) {
         return rejectWithValue('Failed to fetch notes');

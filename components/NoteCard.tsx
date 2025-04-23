@@ -24,7 +24,7 @@ export default function NoteCard({ id, title, content, type, onEdit, onDelete }:
   const handleEdit = () => {
     onEdit({ id, title, content, type })
   }
-  
+
   const handleDelete = () => {
     setShowDeleteModal(true)
   }
@@ -34,13 +34,13 @@ export default function NoteCard({ id, title, content, type, onEdit, onDelete }:
     setShowDeleteModal(false)
   }
   return (
-    <div className={`bg-white rounded-lg shadow-sm px-6 py-4 border-l-4 ${typeColors[type.toLowerCase() as keyof typeof typeColors]} hover:shadow-md transition-shadow`}>
-      <div className="flex justify-between items-start">
+    <div className={`bg-white rounded-lg shadow-sm px-4 sm:px-6 py-4 border-l-4 ${typeColors[type.toLowerCase() as keyof typeof typeColors]}`}>
+      <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-0">
         <div className="flex-1">
           <h3 className="text-lg font-medium text-gray-900 mb-2">{title}</h3>
           <p className="text-gray-600 text-sm line-clamp-2">{content}</p>
         </div>
-        <div className="flex gap-2 ml-4">
+        <div className="flex gap-2 sm:ml-4 justify-end sm:justify-start">
           <button 
             className="p-2 hover:text-gray-600 text-purple-600 rounded-full hover:bg-white bg-purple-50 cursor-pointer"
             onClick={handleEdit}

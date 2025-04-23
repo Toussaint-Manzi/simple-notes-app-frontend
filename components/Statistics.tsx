@@ -35,10 +35,9 @@ const statisticsData = [
 ]
 
 export default function Statistics({ notes }: { notes: any[] }) {
-  console.log("hiii", notes);
   
   return (
-    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
       {statisticsData.map((stat, index) => (
         <div
           key={index}
@@ -47,7 +46,7 @@ export default function Statistics({ notes }: { notes: any[] }) {
           <div className={`${stat.textColor}`}>
             {stat.icon}
           </div>
-          <span className="text-2xl font-bold text-gray-800">{notes.filter(note => note.type === stat.type.toLowerCase()).length || 0}</span>
+          <span className="text-2xl font-bold text-gray-800">{notes.filter(note => note.type === stat.type.toLowerCase()).length || '0'}</span>
           <span className="text-sm text-gray-500">{stat.type}</span>
         </div>
       ))}

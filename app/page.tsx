@@ -47,32 +47,40 @@ export default function Home() {
   }, [notes, selectedFilters]);
 
   return (
-    <div className="grid grid-rows-[auto_1fr] min-h-screen p-8 pb-20 gap-8 sm:p-20 bg-white w-2/3 mx-auto">
+    <div className="grid grid-rows-[auto_1fr] min-h-screen p-8 pb-20 gap-8 sm:p-20 bg-white w-full md:w-2/3 mx-auto ">
+      {/* Header and Statistics */}
       <div className="w-full">
-        <h1 className="text-3xl font-bold mb-8 text-black">Notes Manager</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-black">Notes Manager</h1>
         <Statistics notes={notes}/>
       </div>
+      {/* Notes Section */}
       <div className="w-full">
-        <div className="flex justify-between items-start mb-5">
-          <div className="flex items-center mb-5">
-            <h1 className="text-black text-lg font-medium">Notes Lists</h1>
-            <div className="h-7 w-7 rounded-lg bg-amber-600 flex items-center justify-center text-white text-lg ml-4 ">
+        {/* Header with count and add button */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+          <div className="flex items-center">
+            <h2 className="text-lg font-medium text-black">Notes Lists</h2>
+            <div className="h-7 w-7 rounded-lg bg-amber-600 flex items-center justify-center text-white text-sm ml-3">
               {notes.length || '0'}
             </div>
           </div>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors cursor-pointer"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
           >
             <IoAdd className="w-5 h-5" />
             <span>Add Note</span>
           </button>
         </div>
-        <NoteFilters 
-          selectedFilters={selectedFilters}
-          onFilterChange={setSelectedFilters}
-        />
 
+        {/* Filters */}
+        <div className="mb-6 overflow-x-auto">
+          <NoteFilters 
+            selectedFilters={selectedFilters}
+            onFilterChange={setSelectedFilters}
+          />
+        </div>
+
+        {/* Notes Grid */}
         <div className="grid gap-4">
           {loading ? (
             Array(3).fill(0).map((_, index) => (
