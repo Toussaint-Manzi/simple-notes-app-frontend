@@ -33,7 +33,7 @@ A modern, responsive web application for managing personal, work, and financial 
 1. Clone the repository:
 ```bash
 git clone https://github.com/Toussaint-Manzi/simple-notes-app-frontend.git
-cd notes-manager
+cd simple-notes-app-frontend
 ```
 
 2. Install dependencies:
